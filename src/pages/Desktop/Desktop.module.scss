@@ -1,0 +1,12 @@
+@use '../../scss/mixins';
+
+.desktop {
+  @include mixins.fullscreen;
+  @include mixins.wallpaperBg;
+  @include mixins.pageAnimation;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-image: url("../../assets/desktop-background.png");
+}
+

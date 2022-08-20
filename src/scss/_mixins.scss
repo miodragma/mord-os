@@ -1,0 +1,39 @@
+@import "./variables";
+
+@mixin reset {
+  margin: 0;
+  padding: 0;
+}
+
+@mixin fullscreen {
+  height: 100%;
+  width: 100%;
+}
+
+@mixin wallpaperBg {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+}
+
+@mixin iconBg {
+  background-color: transparent;
+}
+
+@mixin errorBorder {
+  border-bottom: 1px solid $danger;
+}
+
+@mixin pageAnimation {
+  animation: page-animation 0.2s ease-in;
+}
+
+@keyframes page-animation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,31 @@
+@use "../../scss/mixins";
+@import "../../scss/variables";
+
+.taskBar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 30px;
+  padding: 5px 15px;
+  align-items: center;
+
+  & .leftIcons {
+    display: flex;
+  }
+
+  & .rightIcons {
+    display: flex;
+  }
+
+  & .icon {
+    @include mixins.iconBg;
+    font-size: 1.2rem;
+    margin-left: 7px;
+  }
+}
+
+.powerOffIcon {
+  cursor: pointer;
+  margin-left: 1.5rem !important;
+  fill: $danger;
+}
