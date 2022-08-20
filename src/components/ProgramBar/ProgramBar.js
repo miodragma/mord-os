@@ -1,0 +1,39 @@
+import React, { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
+
+import { closeProgramIcon, mainAppsConfig } from '../../config/apps-config';
+
+import './ProgramBar.scss';
+import { programsActions } from '../Program/store/programs-slice';
+
+const ProgramBar = React.memo(props => {
+
+  const { type, id } = props;
+
+  const dispatch = useDispatch()
+
+  const icon = mainAppsConfig.find(app => app.type === type);
+
+  const onClickCloseProgram = useCallback(() => {
+    dispatch(programsActions.closeProgram(id))
+  }, [dispatch, id]);
+
+  return (
+    <div className="programBar">
+      <div className={`leftProgramBar ${icon.type === 'browser' ? 'browserIcon' : ''}`}>
+        <div>
+          {icon.icon(icon.label)}
+        </div>
+        <p>{icon.label}</p>
+      </div>
+      <div className='rightProgramBar'>
+        <div>
+          {closeProgramIcon.icon(closeProgramIcon.label, '', onClickCloseProgram)}
+        </div>
+      </div>
+    </div>
+  )
+
+});
+
+export default ProgramBar;
