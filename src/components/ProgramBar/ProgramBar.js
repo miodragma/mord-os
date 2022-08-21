@@ -2,13 +2,13 @@ import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { closeProgramIcon, mainAppsConfig } from '../../config/apps-config';
+import { programsActions } from '../Program/store/programs-slice';
 
 import './ProgramBar.scss';
-import { programsActions } from '../Program/store/programs-slice';
 
 const ProgramBar = React.memo(props => {
 
-  const { type, id } = props;
+  const { type, id, currentLabel } = props;
 
   const dispatch = useDispatch()
 
@@ -24,7 +24,7 @@ const ProgramBar = React.memo(props => {
         <div>
           {icon.icon(icon.label)}
         </div>
-        <p>{icon.label}</p>
+        <p>{currentLabel || icon.label}</p>
       </div>
       <div className='rightProgramBar'>
         <div>

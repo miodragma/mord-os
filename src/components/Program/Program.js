@@ -7,7 +7,8 @@ import classes from './Program.module.scss';
 
 const Program = React.memo(props => {
 
-  const { children, type, id, onClickProgram, zIndex } = props;
+  const { children, onClickProgram, zIndex, program } = props;
+  const { id, type, currentLabel } = program;
 
   const programRef = useRef(null);
 
@@ -27,7 +28,7 @@ const Program = React.memo(props => {
         style={{ zIndex: zIndex }}
         ref={programRef}
         onClick={onClickProgramHandler}>
-        <ProgramBar type={type} id={id}/>
+        <ProgramBar type={type} id={id} currentLabel={currentLabel}/>
         {children}
       </div>
     </Draggable>
