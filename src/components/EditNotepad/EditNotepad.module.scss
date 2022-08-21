@@ -1,0 +1,58 @@
+@use '../../scss/mixins';
+@import '../../scss/variables';
+
+.inputProgramBar {
+  @include mixins.programBarWindow;
+}
+
+.leftProgramBar {
+}
+
+.rightProgramBar {
+}
+
+.inputWrapper {
+  background-color: #ffffff;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 180px;
+
+  & input {
+    padding: 0.5rem;
+    border-top: unset;
+    border-left: unset;
+    border-right: unset;
+    border-bottom: 1px solid $secondaryColor;
+    width: 300px;
+    color: #000000;
+    background-color: #ffffff;
+    margin: 0 auto;
+
+    &:active, &:focus, &:hover {
+      outline: 0;
+      -webkit-appearance: none;
+      box-shadow: none;
+    }
+  }
+}
+
+.saveInputFileName {
+  border: unset;
+  padding: 10px 35px;
+  border-radius: 4px;
+  font-size: 1.2rem;
+  opacity: 0.9;
+  transition: all 0.2s ease;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  &:disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+}

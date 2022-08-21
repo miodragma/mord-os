@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { programsActions } from '../Program/store/programs-slice';
 import { mainAppsConfig } from '../../config/apps-config';
 
-import classes from './Menu.module.scss';
+import classes from './MainTaskBar.module.scss';
 
-const Menu = () => {
+const MainTaskBar = () => {
 
   const dispatch = useDispatch();
 
@@ -44,4 +44,4 @@ const Menu = () => {
 
 };
 
-export default Menu;
+export default MainTaskBar;

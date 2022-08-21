@@ -1,0 +1,9 @@
+.programWindowButton {
+
+  &:active, &:focus {
+    outline: 0;
+    -webkit-appearance: none;
+    box-shadow: none;
+  }
+
+}

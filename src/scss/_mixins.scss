@@ -37,3 +37,57 @@
     opacity: 1;
   }
 }
+
+@mixin programBarWindow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 30px;
+  color: $textColor;
+  background: $secondaryColor;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  border-top: 1px solid #ffffff;
+  border-right: 1px solid #ffffff;
+  border-left: 1px solid #ffffff;
+
+  & .leftProgramBar {
+
+    display: flex;
+    align-items: center;
+
+    & div:nth-child(1) {
+      display: flex;
+    }
+
+    & svg {
+
+      @include iconBg;
+      font-size: 1.2rem;
+      margin: 0 5px;
+    }
+
+  }
+
+  & .rightProgramBar {
+
+    & div:nth-child(1) {
+      display: flex;
+    }
+
+    & svg {
+      @include iconBg;
+      font-size: 1.3rem;
+      margin: 0 5px;
+      cursor: alias;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+
+      &:hover {
+        fill: $danger;
+      }
+    }
+
+  }
+}
