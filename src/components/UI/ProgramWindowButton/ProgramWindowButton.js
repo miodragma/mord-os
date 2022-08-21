@@ -1,3 +1,5 @@
+import classes from './ProgramWindowButton.module.scss';
+
 const ProgramWindowButton = props => {
 
   const { type = 'button', classNames, label, disabled = false, onClickButton } = props;
@@ -8,7 +10,7 @@ const ProgramWindowButton = props => {
 
   return (
     <button
-      className={classNames}
+      className={`${classes.programWindowButton} ${classNames}`}
       disabled={disabled}
       type={type}
       onClick={onClickButtonHandler}>{label}</button>

@@ -13,12 +13,26 @@ const EditNotepad = props => {
 
   const nameValueRef = useRef();
 
+  const keydownHandler = useCallback(e => {
+    if (e.keyCode === 13) {
+      onClickSave(nameValueRef.current.value);
+    }
+    if (e.keyCode === 27) {
+      onBackdropDismiss();
+    }
+  }, [onClickSave, onBackdropDismiss])
+
+  useEffect(() => {
+    document.addEventListener('keydown', keydownHandler);
+    return () => document.removeEventListener('keydown', keydownHandler)
+  }, [keydownHandler])
+
   useEffect(() => {
     nameValueRef.current.value = currentValue;
-  })
+  }, [currentValue])
 
   const onClickCloseProgramHandler = useCallback(() => {
-    onBackdropDismiss()
+    onBackdropDismiss();
   }, [onBackdropDismiss]);
 
   const onClickSaveHandler = useCallback(() => {
