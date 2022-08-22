@@ -11,7 +11,15 @@ export const unsubscribeClock = (clockRef) => {
   clearInterval(clockRef);
 };
 
-export const formatTime = (dateTime, timeOptions) => {
+const timeOptions = { hour12: true, hour: 'numeric', minute: '2-digit', hour12suffix: true };
+
+export const formatTime = (dateTime) => {
   const time = dateTime.toLocaleTimeString([], timeOptions);
   return timeOptions.hour12suffix ? time : time.replace('AM', '').replace('PM', '')
+};
+
+const dateOptions = { month: 'numeric', day: 'numeric', year: 'numeric' };
+
+export const formatDate = (dateTime) => {
+  return dateTime.toLocaleDateString([], dateOptions);
 };

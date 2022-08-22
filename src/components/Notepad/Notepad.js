@@ -9,11 +9,13 @@ import EditNotepad from '../EditNotepad/EditNotepad';
 
 import { programsActions } from '../Program/store/programs-slice';
 
+import { notepadButtons } from '../../config/program-task.config';
+
 import classes from './Notepad.module.scss';
 
 const Notepad = props => {
 
-  const { programId, currentValue, fileId } = props;
+  const { programId, fileId } = props;
 
   const dispatch = useDispatch();
 
@@ -28,7 +30,8 @@ const Notepad = props => {
       id: fileData.id,
       programId,
       currentLabel: fileData.currentLabel,
-      value: notepadValRef.current.value
+      value: notepadValRef.current.value,
+      dateModified: JSON.stringify(new Date())
     }
     !isEdit && dispatch(programsActions.saveFile(notepadFile));
     isEdit && dispatch(programsActions.updateFile(notepadFile));
@@ -59,14 +62,20 @@ const Notepad = props => {
     onBackdropDismiss();
   }, [onBackdropDismiss, onSaveFile, programId]);
 
+  const notepadTaskBarButtons = notepadButtons.map((button, index) => <ProgramWindowButton
+    key={button.label + index}
+    classNames={classes.programWindowButton}
+    label={button.label}
+    disabled={button.disabled}
+    onClickButton={onClickSaveHandler}/>)
+
+  const currentValue = files.find(file => file.id === fileId)?.value;
+
   return (
     <Fragment>
       <div className={classes.notepad}>
         <ProgramTaskBar>
-          <ProgramWindowButton classNames={classes.programWindowButton} label='Save'
-                               onClickButton={onClickSaveHandler}/>
-          <ProgramWindowButton classNames={classes.programWindowButton} label='Edit' disabled={true}/>
-          <ProgramWindowButton classNames={classes.programWindowButton} label='View' disabled={true}/>
+          {notepadTaskBarButtons}
         </ProgramTaskBar>
         <textarea autoFocus={true} defaultValue={currentValue} ref={notepadValRef}/>
       </div>

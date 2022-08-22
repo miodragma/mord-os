@@ -5,12 +5,13 @@ import TaskBar from '../../components/TaskBar/TaskBar';
 import MainTaskBar from '../../components/MainTaskBar/MainTaskBar';
 import Program from '../../components/Program/Program';
 import Notepad from '../../components/Notepad/Notepad';
+import FileExplorer from '../../components/FileExplorer/FileExplorer';
 
 import classes from './Desktop.module.scss';
 
 const Desktop = () => {
 
-  const { runningPrograms, files } = useSelector(state => state.programs);
+  const { runningPrograms } = useSelector(state => state.programs);
   const [currentWindowId, setCurrentWindowId] = useState(null);
 
   const onClickProgram = useCallback(id => {
@@ -24,6 +25,7 @@ const Desktop = () => {
       onClickProgram={onClickProgram}
       zIndex={currentWindowId === program.id ? 100 : 'auto'}>
       {program.type === 'file' && <Notepad programId={program.id} fileId={program.fileId}/>}
+      {program.type === 'folder' && <FileExplorer/>}
     </Program>)
 
   return (

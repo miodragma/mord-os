@@ -24,7 +24,7 @@ const ProgramBar = React.memo(props => {
         <div>
           {icon.icon(icon.label)}
         </div>
-        <p>{currentLabel || icon.label}</p>
+        <p className='programBarLabel'>{currentLabel || icon.label}</p>
       </div>
       <div className='rightProgramBar'>
         <div>

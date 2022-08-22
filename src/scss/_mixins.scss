@@ -91,3 +91,45 @@
 
   }
 }
+
+@mixin programTaskBarButton {
+  border: unset;
+  padding: 3px 10px;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  &:disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+}
+
+@mixin truncateText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 300px;
+}
+
+@mixin tableDataTableHead {
+  background-color: transparent;
+  color: #333333;
+  text-align: left;
+  padding: 8px;
+
+  &:not(:first-child) {
+    border-left: 1px solid #cccccc;
+  }
+}
+
+@mixin disableSelectText {
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}

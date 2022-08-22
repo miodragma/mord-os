@@ -25,8 +25,7 @@ const MainTaskBar = () => {
   }, [dispatch, runningPrograms]);
 
   const mainApps = mainAppsConfig.map(app => {
-    const id = Math.random().toString().replace('.', '');
-    return (<Fragment key={id}>
+    return (<Fragment key={app.label}>
         {app.icon(
           app.label,
           `${classes.icon} ${app.type === 'browser' ? classes.browserIcon : ''}`,
