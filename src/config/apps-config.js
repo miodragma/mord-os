@@ -1,4 +1,4 @@
-import { FcCamera, FcFile, FcFolder } from 'react-icons/fc';
+import { FcCamera, FcFile, FcFolder, FcGallery } from 'react-icons/fc';
 import { FaChrome } from 'react-icons/fa';
 import { RiCloseCircleLine } from 'react-icons/ri';
 
@@ -14,6 +14,12 @@ export const mainAppsConfig = [
     type: 'file',
     icon: (label, classNames = '', cb = () => {
     }) => <FcFile className={classNames} title={label} onClick={cb}/>
+  },
+  {
+    label: 'Gallery',
+    type: 'gallery',
+    icon: (label, classNames = '', cb = () => {
+    }) => <FcGallery className={classNames} title={label} onClick={cb}/>
   },
   {
     label: 'Browser',

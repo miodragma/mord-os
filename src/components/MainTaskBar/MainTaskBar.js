@@ -14,12 +14,18 @@ const MainTaskBar = () => {
 
   const onClickAppHandler = useCallback(appData => {
     const isProgram = type => runningPrograms?.some(program => program.type === type);
+
     const isFileExplorer = isProgram('folder');
     const isCamera = isProgram('camera');
+    const isGallery = isProgram('gallery');
+
     if (appData.type === 'folder' && isFileExplorer) {
       return;
     }
     if (appData.type === 'camera' && isCamera) {
+      return;
+    }
+    if (appData.type === 'gallery' && isGallery) {
       return;
     }
     const { icon, ...currentAppData } = appData;
