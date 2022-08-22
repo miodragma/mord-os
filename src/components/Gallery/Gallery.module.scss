@@ -1,0 +1,65 @@
+@use '../../scss/mixins';
+@import '../../scss/variables';
+
+.gallery {
+  @include mixins.fullscreen;
+  flex-wrap: wrap;
+  width: 100%;
+  display: flex;
+  background-color: #ffffff;
+  overflow-y: scroll;
+  cursor: alias;
+
+  & .thumbnailWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 25px;
+    background-color: $whiteBackground;
+    opacity: 0.9;
+    transition: all 0.2s ease;
+
+    & p {
+      @include mixins.truncateText;
+      max-width: 140px;
+      background-color: $whiteBackground;
+      color: #000000;
+      margin-top: 1rem;
+    }
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+.selectedThumbnail {
+  opacity: 1;
+}
+
+.imageModalWrapper {
+  & img {
+    @include mixins.disableSelectText;
+    width: 100%;
+  }
+
+  & svg {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto 0;
+    background: transparent;
+    font-size: 35px;
+    cursor: pointer;
+  }
+
+  & .rightIcon {
+    right: 0;
+  }
+}
+
+.disableIcon {
+  pointer-events: none;
+  cursor: alias;
+  fill: #cccccc;
+}

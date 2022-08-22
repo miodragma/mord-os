@@ -33,6 +33,7 @@ td {
 
   & > p {
     @include mixins.truncateText;
+    max-width: 300px;
     background-color: transparent;
     color: #000000;
   }

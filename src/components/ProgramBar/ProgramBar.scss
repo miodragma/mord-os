@@ -12,4 +12,5 @@
 
 .programBarLabel {
   @include mixins.truncateText;
+  max-width: 300px;
 }
