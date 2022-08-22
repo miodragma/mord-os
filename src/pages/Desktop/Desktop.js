@@ -6,6 +6,7 @@ import MainTaskBar from '../../components/MainTaskBar/MainTaskBar';
 import Program from '../../components/Program/Program';
 import Notepad from '../../components/Notepad/Notepad';
 import FileExplorer from '../../components/FileExplorer/FileExplorer';
+import Camera from '../../components/Camera/Camera';
 
 import classes from './Desktop.module.scss';
 
@@ -26,6 +27,7 @@ const Desktop = () => {
       zIndex={currentWindowId === program.id ? 100 : 'auto'}>
       {program.type === 'file' && <Notepad programId={program.id} fileId={program.fileId}/>}
       {program.type === 'folder' && <FileExplorer/>}
+      {program.type === 'camera' && <Camera/>}
     </Program>)
 
   return (
