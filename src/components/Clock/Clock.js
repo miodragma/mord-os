@@ -4,12 +4,10 @@ import { formatTime, subscribeClock, unsubscribeClock } from '../../utils/format
 
 import classes from './Clock.module.scss';
 
-const timeOptions = { hour12: true, hour: 'numeric', minute: '2-digit', hour12suffix: true };
-
 const Clock = () => {
 
   const [currentDateTime, updateCurrentDateTime] = useState(new Date());
-  const dateTimeFormat = formatTime(currentDateTime, timeOptions);
+  const timeFormat = formatTime(currentDateTime);
 
   useEffect(() => {
     const clockRef = subscribeClock(updateCurrentDateTime);
@@ -17,7 +15,7 @@ const Clock = () => {
   }, []);
   return (
     <div className={classes.clock}>
-      <div>{dateTimeFormat}</div>
+      <div>{timeFormat}</div>
     </div>
   );
 };

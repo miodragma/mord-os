@@ -10,5 +10,6 @@
   fill: $browserIcon;
 }
 
-
-
+.programBarLabel {
+  @include mixins.truncateText;
+}

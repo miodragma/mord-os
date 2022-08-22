@@ -55,7 +55,7 @@ const EditNotepad = props => {
         </div>
       </div>
       <div className={classes.inputWrapper}>
-        <input placeholder='Please enter a valid file name' type="text" ref={nameValueRef}/>
+        <input autoFocus placeholder='Please enter a valid file name' type="text" ref={nameValueRef}/>
         <ProgramWindowButton classNames={classes.saveInputFileName} label='Save' onClickButton={onClickSaveHandler}/>
       </div>
     </Fragment>
