@@ -58,7 +58,7 @@ const Browser = () => {
             className={`${findIndexUrl === urls.length - 1 || !urls.length ? classes.disableIcon : ''}`}
             onClick={onClickNext}/>
         </div>
-        <input autoFocus type="text" ref={url}/>
+        <input className={classes.browserUrlInput} autoFocus type="text" ref={url}/>
       </ProgramTaskBar>
       <iframe width='100%' height='100%' src={activeUrl} title='Browser'/>
     </Fragment>

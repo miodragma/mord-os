@@ -11,7 +11,7 @@
   }
 }
 
-input {
+.browserUrlInput {
   @include mixins.outlineInput;
   background: #fff;
   border-radius: 2px;
