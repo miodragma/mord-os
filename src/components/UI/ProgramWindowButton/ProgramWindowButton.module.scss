@@ -1,9 +1,7 @@
+@use '../../../scss/mixins';
+
 .programWindowButton {
 
-  &:active, &:focus {
-    outline: 0;
-    -webkit-appearance: none;
-    box-shadow: none;
-  }
+  @include mixins.outlineInput;
 
 }

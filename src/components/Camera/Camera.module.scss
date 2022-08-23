@@ -1,6 +1,8 @@
+@use '../../scss/mixins';
 @import '../../scss/variables';
 
 video {
+  @include mixins.fullscreen;
   background-color: #333333;
 }
 

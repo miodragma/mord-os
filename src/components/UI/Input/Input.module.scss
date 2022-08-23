@@ -10,12 +10,8 @@
   border-right: unset;
   border-bottom: 1px solid;
   width: 100%;
+  @include mixins.outlineInput;
 
-  &:active, &:focus, &:hover {
-    outline: 0;
-    -webkit-appearance: none;
-    box-shadow: none;
-  }
 }
 
 .errorBorder {
