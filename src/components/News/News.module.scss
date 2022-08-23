@@ -1,0 +1,136 @@
+@use '../../scss/mixins';
+@import '../../scss/variables';
+
+.news {
+  @include mixins.fullscreen;
+  display: flex;
+  overflow: hidden;
+  background-color: $whiteBackground;
+}
+
+.newsList {
+  width: 35%;
+  background-color: $whiteBackground;
+
+  overflow-y: scroll;
+
+  & div {
+    padding: 10px;
+    margin: 10px 5px;
+    transition: all 0.2s ease;
+    background-color: $whiteBackground;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    & * {
+      color: #333333;
+      background-color: transparent;
+    }
+
+    & h3 {
+      color: $secondaryColor;
+      margin-bottom: 1rem;
+    }
+
+    & p:nth-of-type(1) {
+      display: -webkit-box;
+      overflow: hidden;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      line-height: $lineHeight;
+    }
+
+    & p:nth-of-type(2) {
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      color: #666666;
+      text-align: right;
+    }
+
+    &:hover {
+      border-radius: 10px;
+      background: #eeeeee;
+      cursor: pointer;
+    }
+  }
+}
+
+.newsContent {
+  width: 65%;
+  overflow-y: scroll;
+  background-color: $whiteBackground;
+  animation: content-animation 0.3s ease-in;
+
+  & * {
+    color: #000000;
+    background-color: transparent;
+  }
+
+  & div {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+
+    & h1 {
+      color: $secondaryColor;
+      margin-bottom: 2rem;
+      max-width: 70%;
+      text-align: center;
+    }
+
+    & p:nth-of-type(1) {
+      font-size: 1.3rem;
+      margin-bottom: 2rem;
+    }
+
+    & p:nth-of-type(2) {
+      width: 100%;
+      color: #666666;
+      text-align: right;
+    }
+  }
+}
+
+.welcomeContent {
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-width: 70%;
+  border-right: 1px solid;
+  border-bottom: 1px solid;
+  animation: content-animation 0.3s ease-in;
+
+  & img {
+    width: 100%;
+  }
+
+  & h2 {
+    text-align: center;
+    margin: 3rem 0 1rem 0;
+  }
+
+  .welcomeSubTitle {
+    text-align: center;
+    font-size: 1.2rem;
+  }
+
+  .todayInfo {
+    text-align: left;
+    padding: 2rem 3rem;
+    line-height: $lineHeight;
+  }
+}
+
+@keyframes content-animation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

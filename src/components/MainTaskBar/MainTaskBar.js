@@ -18,6 +18,7 @@ const MainTaskBar = () => {
     const isFileExplorer = isProgram('folder');
     const isCamera = isProgram('camera');
     const isGallery = isProgram('gallery');
+    const isNews = isProgram('news');
 
     if (appData.type === 'folder' && isFileExplorer) {
       return;
@@ -26,6 +27,9 @@ const MainTaskBar = () => {
       return;
     }
     if (appData.type === 'gallery' && isGallery) {
+      return;
+    }
+    if (appData.type === 'news' && isNews) {
       return;
     }
     const { icon, ...currentAppData } = appData;
@@ -39,7 +43,7 @@ const MainTaskBar = () => {
     return (<Fragment key={app.label}>
         {app.icon(
           app.label,
-          `${classes.icon} ${app.type === 'browser' ? classes.browserIcon : ''}`,
+          `${classes.icon} ${app?.iconClass && classes[app.iconClass]}`,
           () => onClickAppHandler(app)
         )}
       </Fragment>

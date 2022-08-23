@@ -7,7 +7,11 @@
 }
 
 .browserIcon svg {
-  fill: $browserIcon;
+  fill: $browserIconColor;
+}
+
+.newsIcon svg {
+  fill: $newsIconColor;
 }
 
 .programBarLabel {
