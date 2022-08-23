@@ -20,7 +20,7 @@ const ProgramBar = React.memo(props => {
 
   return (
     <div className="programBar">
-      <div className={`leftProgramBar ${icon.type === 'browser' ? 'browserIcon' : ''}`}>
+      <div className={`leftProgramBar ${icon?.iconClass && icon.iconClass}`}>
         <div>
           {icon.icon(icon.label)}
         </div>

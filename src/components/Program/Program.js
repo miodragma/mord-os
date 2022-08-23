@@ -25,7 +25,7 @@ const Program = React.memo(props => {
       nodeRef={programRef}>
       <div
         className={classes.program}
-        style={{ zIndex: zIndex }}
+        style={{ zIndex: zIndex, width: program.width, height: program.height }}
         ref={programRef}
         onClick={onClickProgramHandler}>
         <ProgramBar type={type} id={id} currentLabel={currentLabel}/>

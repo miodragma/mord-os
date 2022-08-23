@@ -8,11 +8,12 @@ import Notepad from '../../components/Notepad/Notepad';
 import FileExplorer from '../../components/FileExplorer/FileExplorer';
 import Camera from '../../components/Camera/Camera';
 import Gallery from '../../components/Gallery/Gallery';
+import Browser from '../../components/Browser/Browser';
+import News from '../../components/News/News';
 
 import { fetchGalleryData } from '../../components/Gallery/store/gallery-actions';
 
 import classes from './Desktop.module.scss';
-import Browser from '../../components/Browser/Browser';
 
 const Desktop = () => {
 
@@ -40,6 +41,7 @@ const Desktop = () => {
       {program.type === 'camera' && <Camera/>}
       {program.type === 'gallery' && <Gallery/>}
       {program.type === 'browser' && <Browser/>}
+      {program.type === 'news' && <News/>}
     </Program>)
 
   return (
