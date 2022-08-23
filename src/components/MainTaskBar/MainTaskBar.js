@@ -100,7 +100,8 @@ const MainTaskBar = () => {
   };
 
   const onLeaveOpenedProgram = item => {
-    dispatch(programsActions.minimizeProgram({ id: item.id, value: true }))
+    const value = item.hasOwnProperty('isMinimized') && item?.isMinimized
+    value && dispatch(programsActions.minimizeProgram({ id: item.id, value }))
   };
 
   const currentOpenedPrograms = openedPrograms.current.map(item => {
