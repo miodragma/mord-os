@@ -51,10 +51,15 @@
 
     &:hover {
       border-radius: 10px;
-      background: #eeeeee;
+      background-color: #eeeeee;
       cursor: pointer;
     }
   }
+}
+
+.currentActiveNews {
+  border-radius: 10px;
+  background-color: #eeeeee !important;
 }
 
 .newsContent {

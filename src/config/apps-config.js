@@ -2,6 +2,7 @@ import { FcCamera, FcFile, FcFolder, FcGallery } from 'react-icons/fc';
 import { FaChrome } from 'react-icons/fa';
 import { RiCloseCircleLine } from 'react-icons/ri';
 import { BsRssFill } from 'react-icons/bs';
+import { VscChromeMinimize } from 'react-icons/vsc';
 
 export const mainAppsConfig = [
   {
@@ -58,7 +59,14 @@ export const mainAppsConfig = [
 
 export const closeProgramIcon = {
   label: 'Close',
-  type: 'folder',
+  type: 'button',
   icon: (label, classNames = '', cb = () => {
   }) => <RiCloseCircleLine className={classNames} title={label} onClick={cb}/>
+}
+
+export const minimizeProgramIcon = {
+  label: 'Minimize',
+  type: 'button',
+  icon: (label, classNames = '', cb = () => {
+  }) => <VscChromeMinimize className={classNames} title={label} onClick={cb}/>
 }
