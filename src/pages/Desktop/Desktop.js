@@ -12,6 +12,7 @@ import Gallery from '../../components/Gallery/Gallery';
 import { fetchGalleryData } from '../../components/Gallery/store/gallery-actions';
 
 import classes from './Desktop.module.scss';
+import Browser from '../../components/Browser/Browser';
 
 const Desktop = () => {
 
@@ -38,6 +39,7 @@ const Desktop = () => {
       {program.type === 'folder' && <FileExplorer/>}
       {program.type === 'camera' && <Camera/>}
       {program.type === 'gallery' && <Gallery/>}
+      {program.type === 'browser' && <Browser/>}
     </Program>)
 
   return (

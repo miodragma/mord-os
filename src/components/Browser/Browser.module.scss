@@ -1,0 +1,30 @@
+@use '../../scss/mixins';
+@import '../../scss/variables';
+
+.buttons {
+  display: flex;
+  align-items: center;
+
+  & svg {
+    font-size: 25px;
+    margin-right: 20px;
+  }
+}
+
+input {
+  @include mixins.outlineInput;
+  background: #fff;
+  border-radius: 2px;
+  border: 1px solid #ffffff;
+  width: 75%;
+  color: #000000;
+  padding: 3px 10px;
+}
+
+.disableIcon {
+  @include mixins.disableIcon;
+}
+
+iframe {
+  background-color: $whiteBackground;
+}

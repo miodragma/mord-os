@@ -132,3 +132,17 @@
   -webkit-user-select: none;
   -ms-user-select: none;
 }
+
+@mixin outlineInput {
+  &:active, &:focus, &:hover {
+    outline: 0;
+    -webkit-appearance: none;
+    box-shadow: none;
+  }
+}
+
+@mixin disableIcon {
+  pointer-events: none;
+  cursor: alias;
+  fill: #cccccc;
+}
