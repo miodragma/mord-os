@@ -25,7 +25,12 @@ const Program = React.memo(props => {
       nodeRef={programRef}>
       <div
         className={classes.program}
-        style={{ zIndex: zIndex, width: program.width, height: program.height }}
+        style={{
+          zIndex: zIndex,
+          width: program.width,
+          height: program.height,
+          display: program.isMinimized ? 'none' : 'flex',
+        }}
         ref={programRef}
         onClick={onClickProgramHandler}>
         <ProgramBar type={type} id={id} currentLabel={currentLabel}/>

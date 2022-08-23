@@ -4,14 +4,25 @@ const programsSlice = createSlice({
   name: 'programs',
   initialState: {
     runningPrograms: [],
-    files: []
+    files: [],
+    currentWindowId: null
   },
   reducers: {
     openProgram(state, action) {
       state.runningPrograms = [...state.runningPrograms, action.payload];
     },
+    minimizeProgram(state, action) {
+      const findProgramIndex = state.runningPrograms.findIndex(program => program.id === action.payload.id);
+      state.runningPrograms[findProgramIndex] = {
+        ...state.runningPrograms[findProgramIndex],
+        isMinimized: action.payload.value
+      }
+    },
     closeProgram(state, action) {
       state.runningPrograms = state.runningPrograms.filter(program => program.id !== action.payload);
+    },
+    setCurrentWindowId(state, action) {
+      state.currentWindowId = action.payload;
     },
     saveFile(state, action) {
       const findRunningProgramIndex = state.runningPrograms.findIndex(program => program.id === action.payload.programId);

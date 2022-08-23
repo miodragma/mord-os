@@ -31,7 +31,8 @@ const News = () => {
   };
 
   const newsList = news.map(item =>
-    <div onClick={() => onClickNews(item.id)} key={item.id}>
+    <div className={`${selectedNewsId === item.id ? classes.currentActiveNews : ''}`}
+         onClick={() => onClickNews(item.id)} key={item.id}>
       <h3>{item.name}</h3>
       <p>{item.body}</p>
       <p>{item.email}</p>

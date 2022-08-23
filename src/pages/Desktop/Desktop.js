@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import TaskBar from '../../components/TaskBar/TaskBar';
@@ -12,6 +12,7 @@ import Browser from '../../components/Browser/Browser';
 import News from '../../components/News/News';
 
 import { fetchGalleryData } from '../../components/Gallery/store/gallery-actions';
+import { programsActions } from '../../components/Program/store/programs-slice';
 
 import classes from './Desktop.module.scss';
 
@@ -19,16 +20,15 @@ const Desktop = () => {
 
   const dispatch = useDispatch();
 
-  const { runningPrograms } = useSelector(state => state.programs);
-  const [currentWindowId, setCurrentWindowId] = useState(null);
+  const { runningPrograms, currentWindowId } = useSelector(state => state.programs);
 
   useEffect(() => {
     dispatch(fetchGalleryData());
   }, [dispatch])
 
   const onClickProgram = useCallback(id => {
-    setCurrentWindowId(id);
-  }, [])
+    dispatch(programsActions.setCurrentWindowId(id))
+  }, [dispatch])
 
   const programs = runningPrograms.map(program =>
     <Program

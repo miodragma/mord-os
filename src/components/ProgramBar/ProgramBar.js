@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { closeProgramIcon, mainAppsConfig } from '../../config/apps-config';
+import { closeProgramIcon, mainAppsConfig, minimizeProgramIcon } from '../../config/apps-config';
 import { programsActions } from '../Program/store/programs-slice';
 
 import './ProgramBar.scss';
@@ -18,6 +18,10 @@ const ProgramBar = React.memo(props => {
     dispatch(programsActions.closeProgram(id))
   }, [dispatch, id]);
 
+  const onClickMinimizeProgram = useCallback(() => {
+    dispatch(programsActions.minimizeProgram({ id, value: true }));
+  }, [dispatch, id]);
+
   return (
     <div className="programBar">
       <div className={`leftProgramBar ${icon?.iconClass && icon.iconClass}`}>
@@ -28,6 +32,7 @@ const ProgramBar = React.memo(props => {
       </div>
       <div className='rightProgramBar'>
         <div>
+          {minimizeProgramIcon.icon(minimizeProgramIcon.label, '', onClickMinimizeProgram)}
           {closeProgramIcon.icon(closeProgramIcon.label, '', onClickCloseProgram)}
         </div>
       </div>
