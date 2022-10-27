@@ -26,6 +26,13 @@
     }
   }
 
+  & .signUpLoginButton {
+    height: unset;
+    margin-top: 0;
+    padding: 3px 10px;
+    float: right;
+  }
+
   & button {
     height: 50px;
     margin-top: 2rem;

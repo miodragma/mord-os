@@ -1,10 +1,17 @@
+import { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import classes from './Input.module.scss';
 
 const Input = props => {
 
-  const { type, onChangeValue, placeholder, onBlur, isErrorMessage = false } = props;
+  const { type, onChangeValue, placeholder, onBlur, isErrorMessage = false, value } = props;
+
+  const inputRef = useRef();
+
+  useEffect(() => {
+    inputRef.current.value = value ?? ''
+  }, [value])
 
   const onChangeValueHandler = e => {
     onChangeValue(e.target.value);
@@ -16,6 +23,7 @@ const Input = props => {
 
   return (
     <input
+      ref={inputRef}
       className={`${classes.inputField} ${isErrorMessage ? classes.errorBorder : ''}`}
       onChange={onChangeValueHandler}
       onBlur={onBlurHandler}
