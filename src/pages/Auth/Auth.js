@@ -1,8 +1,8 @@
 import { Fragment, useCallback, useContext, useState } from 'react';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 
-import Input from '../../components/UI/Input/Input';
 import AuthContext from '../../authContext/auth-context';
+import Input from '../../components/UI/Input/Input';
 
 import { validateEmail } from '../../utils/validateEmail';
 
