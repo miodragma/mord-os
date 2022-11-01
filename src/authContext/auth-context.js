@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
 const AuthContext = React.createContext({
-  isLoggedIn: false,
-  login: () => {
+  isAuth: false,
+  login: (token) => {
   },
   logout: () => {
   }
@@ -10,24 +10,32 @@ const AuthContext = React.createContext({
 
 export const AuthContextProvider = props => {
 
-  const initIsLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'));
+  const [isAuth, setIsAuth] = useState(false);
 
-  const [isLogged, setIsLogged] = useState(initIsLoggedIn);
+  const userIsAuth = !!isAuth;
 
-  const userIsLoggedIn = !!isLogged;
+  const setAutoLogout = milliseconds => {
+    setTimeout(() => {
+      logoutHandler();
+    }, milliseconds);
+  }
 
-  const loginHandler = () => {
-    setIsLogged(true);
-    localStorage.setItem('isLoggedIn', JSON.stringify(true));
+  const loginHandler = (token) => {
+    setIsAuth(true);
+    localStorage.setItem('token', token);
+    const jwtPayload = JSON.parse(window.atob(token.split('.')[1]))
+    const remainingMilliseconds = (jwtPayload.exp - jwtPayload.iat) * 1000;
+    setAutoLogout(remainingMilliseconds);
   }
 
   const logoutHandler = () => {
-    setIsLogged(false);
-    localStorage.removeItem('isLoggedIn');
+    setIsAuth(false);
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
   }
 
   const contextValue = {
-    isLoggedIn: userIsLoggedIn,
+    isAuth: userIsAuth,
     login: loginHandler,
     logout: logoutHandler
   }

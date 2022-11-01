@@ -6,7 +6,7 @@ export const fetchNewsData = () => {
   return async dispatch => {
 
     const fetchNews = async () => {
-      return axiosConfig('/comments')
+      return axiosConfig.get('https://jsonplaceholder.typicode.com/comments')
     }
 
     try {

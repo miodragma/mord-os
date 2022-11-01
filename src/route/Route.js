@@ -10,7 +10,7 @@ const Desktop = React.lazy(() => import('../pages/Desktop/Desktop'));
 
 const Routes = () => {
 
-  const { isLoggedIn } = useContext(AuthContext);
+  const { isAuth } = useContext(AuthContext);
 
   return (
     <Suspense fallback={<div/>}>
@@ -20,12 +20,12 @@ const Routes = () => {
         </Route>
 
         {
-          !isLoggedIn && <Route path={`/${routeConstants.LOGIN}`} component={Auth}/>
+          !isAuth && <Route path={`/${routeConstants.LOGIN}`} component={Auth}/>
         }
 
         <Route path={`/${routeConstants.DESKTOP}`}>
-          {isLoggedIn && <Desktop/>}
-          {!isLoggedIn && <Redirect to={`/${routeConstants.LOGIN}`}/>}
+          {isAuth && <Desktop/>}
+          {!isAuth && <Redirect to={`/${routeConstants.LOGIN}`}/>}
         </Route>
 
         <Route path='*'>
