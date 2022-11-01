@@ -17,8 +17,8 @@ const Input = props => {
     onChangeValue(e.target.value);
   }
 
-  const onBlurHandler = () => {
-    onBlur();
+  const onBlurHandler = e => {
+    onBlur(e.target.value);
   }
 
   return (

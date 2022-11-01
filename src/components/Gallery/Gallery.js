@@ -31,7 +31,6 @@ const Gallery = () => {
   }, [onBackdropDismiss])
 
   useEffect(() => {
-    setTimeout(() => setSelectedThumbnailId(2), 5000)
     document.addEventListener('keydown', keydownHandler);
     return () => document.removeEventListener('keydown', keydownHandler)
   }, [keydownHandler])

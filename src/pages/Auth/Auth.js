@@ -1,14 +1,16 @@
-import { Fragment, useCallback, useContext, useState } from 'react';
-import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
+import { useContext, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import AuthContext from '../../authContext/auth-context';
-import Input from '../../components/UI/Input/Input';
+import AuthField from '../../components/Auth/AuthField';
 
-import { validateEmail } from '../../utils/validateEmail';
+import { userLogin, userSignup } from '../../components/Auth/store/auth-actions';
+import { authActions } from '../../components/Auth/store/auth.slice';
 
 import logo from '../../assets/logo.svg';
 
 import classes from './Auth.module.scss';
+import { authFieldsLoginConfig, authFieldsSignupConfig } from '../../config/auth-config';
 
 const credentials = {
   email: 'borgoth@mordos.com',
@@ -17,100 +19,57 @@ const credentials = {
 
 const Auth = () => {
 
-  const { login } = useContext(AuthContext);
+  const { login, logout } = useContext(AuthContext);
+  const dispatch = useDispatch();
 
-  const [emailValue, setEmailValue] = useState('');
-  const [passwordValue, setPasswordValue] = useState('');
-  const [confirmPasswordValue, setConfirmPasswordValue] = useState('');
+  const auth = useSelector(state => state.auth);
+  const { errors, email, name, password, confirmPassword, noMatchPasswordMsg } = auth;
 
-  const [isEmailRequiredMessage, setIsEmailRequiredMessage] = useState(false);
-  const [isPasswordRequiredMessage, setIsPasswordRequiredMessage] = useState(false);
-  const [isConfirmPasswordRequiredMessage, setIsConfirmPasswordRequiredMessage] = useState(false);
-
-  const [showInvalidMessage, setShowInvalidMessage] = useState(false);
-  const [showNotMatchPasswordMessage, setShowNotMatchPasswordMessage] = useState(false);
   const [showPleaseWaitMessage, setShowPleaseWaitMessage] = useState(false);
-
-  const [isVisiblePassword, setIsVisiblePassword] = useState(false);
-  const [isVisibleConfirmPassword, setIsVisibleConfirmPassword] = useState(false);
-
   const [signUpLoginButtonText, setSignUpLoginButtonText] = useState('Sign Up');
 
-  const matchPassword = useCallback((password, confirmPassword) => {
-    if (password && confirmPassword) {
-      if (password !== confirmPassword) {
-        setIsPasswordRequiredMessage(true);
-        setIsConfirmPasswordRequiredMessage(true);
-        setShowNotMatchPasswordMessage(true)
-      } else {
-        setIsPasswordRequiredMessage(false);
-        setIsConfirmPasswordRequiredMessage(false);
-        setShowNotMatchPasswordMessage(false)
-      }
-    }
-  }, []);
-
-  const onChangeEmailHandler = useCallback(email => {
-    setEmailValue(email.trim());
-    const isEmailRequiredMessage = validateEmail(email) && !!email.trim();
-    setIsEmailRequiredMessage(!isEmailRequiredMessage)
-    setShowInvalidMessage(false);
-  }, []);
-
-  const onChangePasswordHandler = useCallback(password => {
-    setPasswordValue(password.trim());
-    setIsPasswordRequiredMessage(!password.trim());
-    setShowInvalidMessage(false);
-    matchPassword(password.trim(), confirmPasswordValue);
-  }, [confirmPasswordValue, matchPassword]);
-
-  const onChangeConfirmPasswordHandler = useCallback(password => {
-    setConfirmPasswordValue(password.trim());
-    setIsConfirmPasswordRequiredMessage(!password.trim());
-    setShowInvalidMessage(false);
-    matchPassword(passwordValue, password.trim());
-  }, [matchPassword, passwordValue]);
-
-  const onSubmitLogin = e => {
+  const onSubmit = e => {
     e.preventDefault();
-    if (emailValue !== credentials.email || passwordValue !== credentials.password) {
-      setShowInvalidMessage(true);
+    dispatch(authActions.clearError());
+    setShowPleaseWaitMessage(true);
+    if (signUpLoginButtonText !== 'Login') {
+      dispatch(userLogin({
+        email: email.value,
+        password: password.value
+      }))
+        .then(res => {
+          login(res.payload.user.token);
+          setShowPleaseWaitMessage(false);
+          dispatch(authActions.clearState());
+        })
+        .catch(err => {
+          logout();
+          setShowPleaseWaitMessage(false);
+        })
     } else {
-      setShowPleaseWaitMessage(true);
-      setTimeout(() => {
-        login();
-        setShowPleaseWaitMessage(false);
-      }, 1500);
+      dispatch(userSignup({
+        email: email.value,
+        password: password.value,
+        confirmPassword: confirmPassword.value,
+        name: name.value
+      }))
+        .then(res => {
+          onChangeSignUpLoginHandler()
+          logout();
+          setShowPleaseWaitMessage(false);
+          dispatch(authActions.clearState());
+        })
+        .catch(err => {
+          logout();
+          setShowPleaseWaitMessage(false);
+        })
     }
-  }
-
-  const onBlurEmailHandler = useCallback(() => {
-    const isEmailRequiredMessage = validateEmail(emailValue) && !!emailValue;
-    setIsEmailRequiredMessage(!isEmailRequiredMessage);
-  }, [emailValue]);
-
-  const onBlurPasswordHandler = useCallback(() => {
-    setIsPasswordRequiredMessage(!passwordValue);
-    matchPassword(passwordValue, confirmPasswordValue);
-  }, [confirmPasswordValue, matchPassword, passwordValue]);
-
-  const onBlurConfirmPasswordHandler = useCallback(() => {
-    setIsConfirmPasswordRequiredMessage(!confirmPasswordValue);
-    matchPassword(passwordValue, confirmPasswordValue);
-  }, [confirmPasswordValue, matchPassword, passwordValue]);
-
-  const onClickEyePasswordIconHandler = () => {
-    setIsVisiblePassword(prevState => !prevState);
-  }
-
-  const onClickEyeConfirmPasswordIconHandler = () => {
-    setIsVisibleConfirmPassword(prevState => !prevState);
   }
 
   const onChangeSignUpLoginHandler = () => {
-    setEmailValue('');
-    setPasswordValue('');
-    setConfirmPasswordValue('');
+    dispatch(authActions.clearError());
+    dispatch(authActions.clearState());
+    setShowPleaseWaitMessage(false);
     setSignUpLoginButtonText(prevState => {
       if (prevState === 'Sign Up') {
         return 'Login'
@@ -120,88 +79,58 @@ const Auth = () => {
     })
   };
 
+  const apiErrors = errors?.map((error, index) => {
+    return (
+      <p key={index} className={classes.errorMessage}>{error.param ? `${error.param} : ` : ''} {error.message}</p>)
+  })
+
+  const fieldsConfig = config => config.map(field => {
+    const type = field.keyType === 'password' || field.keyType === 'confirmPassword' ? auth[field.keyType].onEyePassword ? 'text' : 'password' : field.type;
+    return (
+      <div className={classes.inputWrapper} key={field.id}>
+        <AuthField
+          keyType={field.keyType}
+          isEyeContent={field.isEyeContent}
+          placeholder={field.placeholder}
+          type={type}
+          errorMessage={field.errorMessage}
+          errorClass={classes.errorMessage}
+        />
+      </div>
+    )
+  })
+
+  const fieldsLogin = fieldsConfig(authFieldsLoginConfig);
+  const fieldsSignup = fieldsConfig(authFieldsSignupConfig);
+
   return (
     <div className={classes.loginWrapper}>
       <img src={logo} alt=""/>
 
+      {apiErrors}
       {
-        showInvalidMessage &&
-        <p className={classes.errorMessage}>The email address or password is incorrect. Please try again.</p>
-      }
-      {
-        showNotMatchPasswordMessage &&
+        noMatchPasswordMsg &&
         <p className={classes.errorMessage}>Password not match. Please try again.</p>
       }
       {
         showPleaseWaitMessage && <p className={classes.pleaseWaitMessage}>Please wait...</p>
       }
-      <form onSubmit={onSubmitLogin}>
+      <form onSubmit={onSubmit}>
 
-        <div className={classes.inputWrapper}>
-          <Input
-            value={emailValue}
-            isErrorMessage={isEmailRequiredMessage}
-            onBlur={onBlurEmailHandler}
-            type='email'
-            placeholder='Email'
-            onChangeValue={onChangeEmailHandler}/>
-          {isEmailRequiredMessage && <p className={classes.errorMessage}>Email address is required</p>}
-        </div>
+        {fieldsLogin}
 
-        <div className={classes.inputWrapper}>
-          <Input
-            value={passwordValue}
-            isErrorMessage={isPasswordRequiredMessage}
-            onBlur={onBlurPasswordHandler}
-            type={isVisiblePassword ? 'text' : 'password'}
-            placeholder='Password'
-            onChangeValue={onChangePasswordHandler}/>
+        {signUpLoginButtonText !== 'Sign Up' && fieldsSignup}
 
-          {isVisiblePassword ?
-            <AiFillEyeInvisible
-              className={`${classes.eyePasswordIcon} disableSelection`}
-              onClick={onClickEyePasswordIconHandler}/> :
-            <AiFillEye
-              className={`${classes.eyePasswordIcon} disableSelection`}
-              onClick={onClickEyePasswordIconHandler}/>}
-
-          {isPasswordRequiredMessage && <p className={classes.errorMessage}>Password is required</p>}
-        </div>
-
-        <div className={classes.inputWrapper}>
-          {signUpLoginButtonText !== 'Sign Up' && <Fragment>
-            <Input
-              value={confirmPasswordValue}
-              isErrorMessage={isConfirmPasswordRequiredMessage}
-              onBlur={onBlurConfirmPasswordHandler}
-              type={isVisibleConfirmPassword ? 'text' : 'password'}
-              placeholder='Confirm password'
-              onChangeValue={onChangeConfirmPasswordHandler}/>
-
-            {isVisibleConfirmPassword ?
-              <AiFillEyeInvisible
-                className={`${classes.eyePasswordIcon} disableSelection`}
-                onClick={onClickEyeConfirmPasswordIconHandler}/> :
-              <AiFillEye
-                className={`${classes.eyePasswordIcon} disableSelection`}
-                onClick={onClickEyeConfirmPasswordIconHandler}/>}
-
-            {isConfirmPasswordRequiredMessage && <p className={classes.errorMessage}>Confirm password is required</p>}
-          </Fragment>}
-
-
-          <button onClick={onChangeSignUpLoginHandler} className={classes.signUpLoginButton}
-                  type='button'>{signUpLoginButtonText}</button>
-        </div>
-
+        <button onClick={onChangeSignUpLoginHandler} className={classes.signUpLoginButton}
+                type='button'>{signUpLoginButtonText}</button>
         {
           signUpLoginButtonText !== 'Login' ?
             <button
-              disabled={isEmailRequiredMessage || isPasswordRequiredMessage || !emailValue || !passwordValue}
+              disabled={email.isRequiredMessage || password.isRequiredMessage || !email.value || !password.value}
               type='submit'>Login
             </button> :
             <button
-              disabled={isEmailRequiredMessage || isPasswordRequiredMessage || isConfirmPasswordRequiredMessage || !emailValue || !passwordValue || !confirmPasswordValue}
+              disabled={email.isRequiredMessage || name.isRequiredMessage || password.isRequiredMessage || confirmPassword.isRequiredMessage || !email.value || !name.value || !password.value || !confirmPassword.value}
               type='submit'>Sign Up
             </button>
         }

@@ -6,7 +6,7 @@ export const fetchGalleryData = () => {
   return async dispatch => {
 
     const fetchGallery = async () => {
-      return axiosConfig('/photos')
+      return axiosConfig.get('https://jsonplaceholder.typicode.com/photos')
     }
 
     try {
