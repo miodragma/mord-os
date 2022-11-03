@@ -23,15 +23,14 @@ const Auth = () => {
   const dispatch = useDispatch();
 
   const auth = useSelector(state => state.auth);
-  const { errors, email, name, password, confirmPassword, noMatchPasswordMsg } = auth;
+  const { errors, email, name, password, confirmPassword, noMatchPasswordMsg, showPleaseWaitMessage } = auth;
 
-  const [showPleaseWaitMessage, setShowPleaseWaitMessage] = useState(false);
   const [signUpLoginButtonText, setSignUpLoginButtonText] = useState('Sign Up');
 
   const onSubmit = e => {
     e.preventDefault();
     dispatch(authActions.clearError());
-    setShowPleaseWaitMessage(true);
+    dispatch(authActions.onChangePleaseWaitMessage(true));
     if (signUpLoginButtonText !== 'Login') {
       dispatch(userLogin({
         email: email.value,
@@ -39,12 +38,12 @@ const Auth = () => {
       }))
         .then(res => {
           login(res.payload.user.token);
-          setShowPleaseWaitMessage(false);
+          dispatch(authActions.onChangePleaseWaitMessage(false));
           dispatch(authActions.clearState());
         })
         .catch(err => {
           logout();
-          setShowPleaseWaitMessage(false);
+          dispatch(authActions.onChangePleaseWaitMessage(false));
         })
     } else {
       dispatch(userSignup({
@@ -56,12 +55,12 @@ const Auth = () => {
         .then(res => {
           onChangeSignUpLoginHandler()
           logout();
-          setShowPleaseWaitMessage(false);
+          dispatch(authActions.onChangePleaseWaitMessage(false));
           dispatch(authActions.clearState());
         })
         .catch(err => {
           logout();
-          setShowPleaseWaitMessage(false);
+          dispatch(authActions.onChangePleaseWaitMessage(false));
         })
     }
   }
@@ -69,7 +68,7 @@ const Auth = () => {
   const onChangeSignUpLoginHandler = () => {
     dispatch(authActions.clearError());
     dispatch(authActions.clearState());
-    setShowPleaseWaitMessage(false);
+    dispatch(authActions.onChangePleaseWaitMessage(false));
     setSignUpLoginButtonText(prevState => {
       if (prevState === 'Sign Up') {
         return 'Login'

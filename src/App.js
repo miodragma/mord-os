@@ -6,7 +6,9 @@ import Layout from './components/Layout/Layout';
 import Routes from './route/Route';
 
 import AuthContext from './authContext/auth-context';
+
 import { getUser } from './components/Auth/store/auth-actions';
+import { authActions } from './components/Auth/store/auth.slice';
 
 const App = () => {
 
@@ -14,9 +16,16 @@ const App = () => {
   const { login, logout } = useContext(AuthContext);
 
   useEffect(() => {
+    dispatch(authActions.onChangePleaseWaitMessage(true));
     dispatch(getUser())
-      .then(res => login(res.payload.user.token))
-      .catch(err => logout())
+      .then(res => {
+        login(res.payload.user.token);
+        dispatch(authActions.onChangePleaseWaitMessage(false));
+      })
+      .catch(err => {
+        dispatch(authActions.onChangePleaseWaitMessage(false));
+        logout()
+      })
   }, [])
 
   return (

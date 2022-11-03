@@ -10,7 +10,8 @@ const authSlice = createSlice({
     name: {},
     password: { onEyePassword: false },
     confirmPassword: { onEyePassword: false },
-    noMatchPasswordMsg: false
+    noMatchPasswordMsg: false,
+    showPleaseWaitMessage: false
   },
   reducers: {
     signup(state, action) {
@@ -40,6 +41,9 @@ const authSlice = createSlice({
       state.password.isRequiredMessage = action.payload;
       state.confirmPassword.isRequiredMessage = action.payload;
       state.noMatchPasswordMsg = action.payload;
+    },
+    onChangePleaseWaitMessage(state, action) {
+      state.showPleaseWaitMessage = action.payload;
     }
   }
 });
