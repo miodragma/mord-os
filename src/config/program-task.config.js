@@ -15,19 +15,33 @@ export const notepadButtons = [
 
 export const fileExplorerButtons = [
   {
+    label: 'Create Folder',
+    disabled: false,
+    strictEnabled: true,
+    type: 'create-folder'
+  },
+  {
     label: 'Copy',
-    disabled: true
+    disabled: true,
+    strictEnabled: false,
+    type: 'copy'
   },
   {
     label: 'Paste',
-    disabled: true
+    disabled: true,
+    strictEnabled: false,
+    type: 'paste'
   },
   {
     label: 'Cut',
-    disabled: true
+    disabled: true,
+    strictEnabled: false,
+    type: 'cut'
   },
   {
     label: 'Delete',
-    disabled: false
+    disabled: false,
+    strictEnabled: false,
+    type: 'delete'
   }
 ];

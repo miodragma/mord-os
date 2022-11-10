@@ -1,21 +1,22 @@
 import { Fragment, useCallback, useEffect, useRef } from 'react';
 import { RiEdit2Fill } from 'react-icons/ri';
 
-import { closeProgramIcon } from '../../config/apps-config';
+import { closeProgramIcon } from '../../../config/apps-config';
 
-import ProgramWindowButton from '../UI/ProgramWindowButton/ProgramWindowButton';
+import ProgramWindowButton from '../ProgramWindowButton/ProgramWindowButton';
 
-import classes from './EditNotepad.module.scss';
+import classes from './FieldNameModal.module.scss';
 
-const EditNotepad = props => {
+const FieldNameModal = props => {
 
-  const { onBackdropDismiss, currentValue = 'United', onClickSave } = props;
+  const { onBackdropDismiss, currentValue = 'United', onClickSave, activeFolder, groups = [] } = props;
 
   const nameValueRef = useRef();
+  const groupValueRef = useRef();
 
   const keydownHandler = useCallback(e => {
     if (e.keyCode === 13) {
-      onClickSave(nameValueRef.current.value);
+      onClickSave({ name: nameValueRef.current.value, groupId: groupValueRef.current?.value || null });
     }
     if (e.keyCode === 27) {
       onBackdropDismiss();
@@ -36,8 +37,10 @@ const EditNotepad = props => {
   }, [onBackdropDismiss]);
 
   const onClickSaveHandler = useCallback(() => {
-    onClickSave(nameValueRef.current.value);
-  }, [onClickSave])
+    onClickSave({ name: nameValueRef.current.value, groupId: groupValueRef.current?.value });
+  }, [onClickSave]);
+
+  const groupsOptions = groups.map(group => <option key={group.createdAt} value={group.id}>{group.name}</option>)
 
   return (
     <Fragment>
@@ -55,7 +58,23 @@ const EditNotepad = props => {
         </div>
       </div>
       <div className={classes.inputWrapper}>
-        <input autoFocus placeholder='Please enter a valid file name' type="text" ref={nameValueRef}/>
+        <div className={classes.inputAndGroups}>
+          <div>
+            <label>Name</label>
+            <input autoFocus placeholder='Please enter a valid file name' type="text" ref={nameValueRef}/>
+          </div>
+          {
+            groups.length &&
+            <div>
+              <label>Group</label>
+              <select ref={groupValueRef} defaultValue={activeFolder} placeholder='Groups'>
+                <option value={null}>My Files</option>
+                {groupsOptions}
+              </select>
+
+            </div>
+          }
+        </div>
         <ProgramWindowButton classNames={classes.saveInputFileName} label='Save' onClickButton={onClickSaveHandler}/>
       </div>
     </Fragment>
@@ -63,4 +82,4 @@ const EditNotepad = props => {
 
 };
 
-export default EditNotepad;
+export default FieldNameModal;

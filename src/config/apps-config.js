@@ -1,8 +1,12 @@
-import { FcCamera, FcFile, FcFolder, FcGallery } from 'react-icons/fc';
-import { FaChrome } from 'react-icons/fa';
 import { RiCloseCircleLine } from 'react-icons/ri';
-import { BsRssFill } from 'react-icons/bs';
 import { VscChromeMinimize } from 'react-icons/vsc';
+
+import rss from '../assets/rss.png';
+import safari from '../assets/safari.png';
+import camera from '../assets/camera.png';
+import gallery from '../assets/gallery.png';
+import notepad from '../assets/notepad.png';
+import fileExplorer from '../assets/file-explorer.png';
 
 export const mainAppsConfig = [
   {
@@ -11,7 +15,7 @@ export const mainAppsConfig = [
     width: '840px',
     height: '580px',
     icon: (label, classNames = '', cb = () => {
-    }) => <FcFolder className={classNames} title={label} onClick={cb}/>
+    }) => <img src={fileExplorer} alt="" className={classNames} title={label} onClick={cb}/>
   },
   {
     label: 'Notepad',
@@ -19,7 +23,7 @@ export const mainAppsConfig = [
     width: '840px',
     height: '580px',
     icon: (label, classNames = '', cb = () => {
-    }) => <FcFile className={classNames} title={label} onClick={cb}/>
+    }) => <img src={notepad} alt="" className={classNames} title={label} onClick={cb}/>
   },
   {
     label: 'Gallery',
@@ -27,7 +31,7 @@ export const mainAppsConfig = [
     width: '840px',
     height: '580px',
     icon: (label, classNames = '', cb = () => {
-    }) => <FcGallery className={classNames} title={label} onClick={cb}/>
+    }) => <img src={gallery} alt="" className={classNames} title={label} onClick={cb}/>
   },
   {
     label: 'Browser',
@@ -36,7 +40,7 @@ export const mainAppsConfig = [
     height: '580px',
     iconClass: 'browserIcon',
     icon: (label, classNames = '', cb = () => {
-    }) => <FaChrome className={classNames} title={label} onClick={cb}/>
+    }) => <img src={safari} alt="" className={classNames} title={label} onClick={cb}/>
   },
   {
     label: 'Camera',
@@ -44,7 +48,7 @@ export const mainAppsConfig = [
     width: '840px',
     height: '580px',
     icon: (label, classNames = '', cb = () => {
-    }) => <FcCamera className={classNames} title={label} onClick={cb}/>
+    }) => <img src={camera} alt="" className={classNames} title={label} onClick={cb}/>
   },
   {
     label: 'News',
@@ -53,7 +57,7 @@ export const mainAppsConfig = [
     width: '970px',
     height: '620px',
     icon: (label, classNames = '', cb = () => {
-    }) => <BsRssFill className={classNames} title={label} onClick={cb}/>
+    }) => <img src={rss} alt="" className={classNames} title={label} onClick={cb}/>
   }
 ];
 
