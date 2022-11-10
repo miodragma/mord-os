@@ -18,7 +18,7 @@ const authSlice = createSlice({
       state.signupUser = action.payload
     },
     login(state, action) {
-      state.user = action.payload;
+      state.user = action.payload.user;
     },
     error(state, action) {
       state.errors = action.payload

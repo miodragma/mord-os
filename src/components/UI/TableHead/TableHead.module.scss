@@ -3,6 +3,7 @@
 
 th {
   @include mixins.tableDataTableHead;
+  background-color: white;
   @include mixins.disableSelectText;
   position: sticky;
   top: 0;

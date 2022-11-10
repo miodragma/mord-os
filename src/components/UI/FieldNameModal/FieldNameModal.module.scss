@@ -1,0 +1,87 @@
+@use '../../../scss/mixins';
+@import '../../../scss/variables';
+
+.inputProgramBar {
+  @include mixins.programBarWindow;
+}
+
+.leftProgramBar {
+}
+
+.rightProgramBar {
+}
+
+.inputWrapper {
+  background-color: $whiteBackground;
+  padding: 16px;
+  height: 180px;
+
+  & label {
+    color: black;
+    padding-left: 3px;
+    background-color: $whiteBackground;
+  }
+
+  & input {
+    padding: 0.5rem;
+    border: 1px solid grey;
+    border-radius: 6px;
+    background: $selectedBackground;
+    margin-top: 10px;
+    width: 300px;
+    color: #000000;
+
+    @include mixins.outlineInput;
+
+  }
+}
+
+.saveInputFileName {
+  border: unset;
+  padding: 10px 35px;
+  border-radius: 4px;
+  font-size: 1.2rem;
+  opacity: 0.9;
+  transition: all 0.2s ease;
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  &:disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+}
+
+.inputAndGroups {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: $whiteBackground;
+
+  & div {
+    display: flex;
+    flex-direction: column;
+    background-color: $whiteBackground;
+  }
+
+  & select {
+    color: black;
+    width: 150px;
+    height: 31px;
+    margin-top: 10px;
+    border: 1px solid grey;
+    border-radius: 6px;
+    background-color: $selectedBackground;
+    outline: none;
+
+    & option {
+      color: black;
+      background-color: $selectedBackground;
+    }
+  }
+}

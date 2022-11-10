@@ -13,6 +13,7 @@ import News from '../../components/News/News';
 
 import { fetchGalleryData } from '../../components/Gallery/store/gallery-actions';
 import { programsActions } from '../../components/Program/store/programs-slice';
+import { fetchGroups } from '../../components/Program/store/programs-actions';
 
 import classes from './Desktop.module.scss';
 
@@ -24,6 +25,7 @@ const Desktop = () => {
 
   useEffect(() => {
     dispatch(fetchGalleryData());
+    dispatch(fetchGroups());
   }, [dispatch])
 
   const onClickProgram = useCallback(id => {

@@ -14,8 +14,10 @@ const Program = React.memo(props => {
 
   useEffect(() => onClickProgram(id), [id, onClickProgram]);
 
-  const onClickProgramHandler = () => {
-    onClickProgram(id);
+  const onClickProgramHandler = e => {
+    if (e.detail === 1) {
+      onClickProgram(id);
+    }
   };
 
   return (

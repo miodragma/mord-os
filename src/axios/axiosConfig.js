@@ -1,7 +1,8 @@
 import axios from 'axios';
+import { config } from '../constants/constants';
 
 const instance = axios.create({
-  baseURL: 'https://mord-os-api.herokuapp.com',
+  baseURL: config.url.BASE_URL,
 });
 
 instance.interceptors.request.use(request => {

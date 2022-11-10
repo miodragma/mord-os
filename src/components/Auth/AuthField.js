@@ -44,7 +44,7 @@ const AuthField = props => {
 
     if (keyType === 'email') {
       trimValue = trimValue.toLowerCase();
-      isRequiredMessage = !validateEmail(trimValue) && !!trimValue;
+      isRequiredMessage = !(validateEmail(trimValue) && !!trimValue);
     }
     if (keyType === 'password' || keyType === 'confirmPassword') {
       dispatch(authActions.onChangeValue({

@@ -14,41 +14,26 @@
 }
 
 .tableWrapper {
-  overflow-y: scroll;
-}
-
-table {
-  border-collapse: collapse;
+  overflow-y: auto;
   width: 100%;
-  position: relative;
-  cursor: alias;
-}
-
-td {
-  @include mixins.tableDataTableHead;
-  background-color: transparent;
-  color: #333333;
-  text-align: left;
-  padding: 8px;
-
-  & > p {
-    @include mixins.truncateText;
-    max-width: 300px;
-    background-color: transparent;
-    color: #000000;
-  }
-}
-
-tr {
   background-color: $whiteBackground;
 }
 
-.fileDataInfoWrapper:hover {
-  background-color: $selectedBackground;
+.explorerContent {
+  display: flex;
+  background-color: $whiteBackground;
+  height: 100%;
 }
 
-.selectedFile {
-  @include mixins.disableSelectText;
-  background-color: $selectedBackground;
+.sideFolders {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  color: $textColor;
+  width: 20%;
+  height: 100%;
+  border-left: 1px solid $whiteBackground;
+  border-bottom: 1px solid $whiteBackground;
+  border-top: 1px solid grey;
 }
 

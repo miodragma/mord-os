@@ -5,13 +5,13 @@ import ProgramWindowButton from '../UI/ProgramWindowButton/ProgramWindowButton';
 import ProgramTaskBar from '../UI/ProgramTaskBar/ProgramTaskBar';
 import Backdrop from '../UI/Backdrop/Backdrop';
 import Modal from '../UI/Modal/Modal';
-import EditNotepad from '../EditNotepad/EditNotepad';
 
-import { programsActions } from '../Program/store/programs-slice';
+import { createOrUpdateFile } from '../Program/store/programs-actions';
 
 import { notepadButtons } from '../../config/program-task.config';
 
 import classes from './Notepad.module.scss';
+import FieldNameModal from '../UI/FieldNameModal/FieldNameModal';
 
 const Notepad = props => {
 
@@ -19,28 +19,28 @@ const Notepad = props => {
 
   const dispatch = useDispatch();
 
-  const { files } = useSelector(state => state.programs);
+  const { files, groups, activeFolder } = useSelector(state => state.programs);
 
   const [isNameInput, setIsNameInput] = useState(false);
 
   const notepadValRef = useRef();
 
-  const onSaveFile = useCallback((fileData, isEdit = false) => {
+  const onSaveFile = useCallback((fileData) => {
     const notepadFile = {
-      id: fileData.id,
+      id: fileId,
       programId,
       currentLabel: fileData.currentLabel,
       value: notepadValRef.current.value,
-      dateModified: JSON.stringify(new Date())
+      userId: fileData.userId,
+      groupId: fileData.groupId
     }
-    !isEdit && dispatch(programsActions.saveFile(notepadFile));
-    isEdit && dispatch(programsActions.updateFile(notepadFile));
-  }, [dispatch, programId])
+    dispatch(createOrUpdateFile(notepadFile));
+  }, [dispatch, fileId, programId])
 
   const onClickSaveHandler = useCallback(() => {
     const isFile = files.find(file => file.id === fileId);
     if (isFile) {
-      onSaveFile(isFile, true)
+      onSaveFile(isFile)
     } else {
       setIsNameInput(true);
     }
@@ -51,12 +51,12 @@ const Notepad = props => {
     setIsNameInput(false);
   }, []);
 
-  const onClickSaveEditHandler = useCallback(name => {
+  const onClickSaveEditHandler = useCallback(data => {
     const fileData = {
-      id: Date.now(),
       programId,
-      currentLabel: name || 'United',
-      value: notepadValRef.current.value
+      currentLabel: data.name || 'United',
+      value: notepadValRef.current.value,
+      groupId: data.groupId !== 'My Files' ? data.groupId : null
     };
     onSaveFile(fileData)
     onBackdropDismiss();
@@ -70,7 +70,6 @@ const Notepad = props => {
     onClickButton={onClickSaveHandler}/>)
 
   const currentValue = files.find(file => file.id === fileId)?.value;
-
   return (
     <Fragment>
       <div className={classes.notepad}>
@@ -81,9 +80,11 @@ const Notepad = props => {
       </div>
       {isNameInput && <Backdrop onClickBackdrop={onBackdropDismiss}/>}
       {isNameInput && <Modal>{
-        <EditNotepad
+        <FieldNameModal
+          groups={groups}
           onBackdropDismiss={onBackdropDismiss}
           onClickSave={onClickSaveEditHandler}
+          activeFolder={activeFolder === 'myFiles' ? null : activeFolder}
         />}</Modal>}
     </Fragment>
   )

@@ -1,16 +1,17 @@
-import { useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import ProgramWindowButton from '../UI/ProgramWindowButton/ProgramWindowButton';
 import ProgramTaskBar from '../UI/ProgramTaskBar/ProgramTaskBar';
-import TableHead from '../UI/TableHead/TableHead';
+import SideFolders from './SideFolders/SideFolders';
+import FilesList from './FilesList/FilesList';
+import Backdrop from '../UI/Backdrop/Backdrop';
+import Modal from '../UI/Modal/Modal';
+import FieldNameModal from '../UI/FieldNameModal/FieldNameModal';
 
-import { formatDate, formatTime } from '../../utils/formatTime';
-import { filterByAscAndDesc } from '../../utils/filterByAscAndDesc';
 import { fileExplorerButtons } from '../../config/program-task.config';
-import { fileExplorerTableHeadConfig } from '../../config/table-head.config';
 
-import { programsActions } from '../Program/store/programs-slice';
+import { createGroup, deleteFile, deleteGroup } from '../Program/store/programs-actions';
 
 import classes from './FileExplorer.module.scss';
 
@@ -18,81 +19,71 @@ const FileExplorer = () => {
 
   const dispatch = useDispatch();
 
-  const { files } = useSelector(state => state.programs);
+  const { user } = useSelector(state => state.auth);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFolder, setSelectedFolder] = useState(null);
+  const [createFolder, setCreateFolder] = useState(false);
 
-  const [sortColumn, setSortColumn] = useState('name');
-  const [sortOrder, setSortOrder] = useState('DESCENDING');
-  const [sortProperty, setSortProperty] = useState('currentLabel');
-
-  const onClickDeleteHandler = useCallback(() => {
-    dispatch(programsActions.deleteFile(selectedFile));
-    setSelectedFile(null)
-  }, [dispatch, selectedFile])
-
-  const onClickRowHandler = (e, file) => {
-    setSelectedFile(file.id);
-    if (e.detail === 2) {
-      dispatch(programsActions.openProgram({
-        id: Date.now(),
-        label: 'Notepad',
-        type: 'file',
-        fileId: file.id,
-        currentLabel: file.currentLabel
-      }))
+  const onClickButtonHandler = useCallback(type => {
+    if (type === 'delete') {
+      if (selectedFile?.id) {
+        dispatch(deleteFile(selectedFile.id));
+        setSelectedFile(null);
+        return;
+      }
+      dispatch(deleteGroup(selectedFolder?.id));
+      setSelectedFolder(null);
+      return;
     }
-  };
+    if (type === 'create-folder') {
+      setCreateFolder(true);
+    }
+  }, [dispatch, selectedFile, selectedFolder])
 
   const fileExplorerTaskBarButtons = fileExplorerButtons.map((button, index) => <ProgramWindowButton
     key={button.label + index}
     classNames={classes.programWindowButton}
     label={button.label}
-    disabled={!(button.disabled === false && selectedFile)}
-    onClickButton={onClickDeleteHandler}/>)
+    disabled={
+      !button.strictEnabled && !(!button.disabled && (selectedFile?.id || selectedFolder?.id) && (user.id !== selectedFile?.userId || user.id !== selectedFolder?.userId))}
+    onClickButton={() => onClickButtonHandler(button.type)}/>)
 
-  const allFiles = filterByAscAndDesc([...files], sortOrder, sortProperty).map(file => {
-    const dateFormat = formatDate(new Date(JSON.parse(file.dateModified)));
-    const timeFormat = formatTime(new Date(JSON.parse(file.dateModified)));
-    return (
-      <tr
-        onClick={(e) => onClickRowHandler(e, file)}
-        className={`${classes.fileDataInfoWrapper} ${selectedFile === file.id ? classes.selectedFile : ''}`}
-        key={file.id}>
-        <td><p>{file.currentLabel}</p></td>
-        <td>{dateFormat} {timeFormat}</td>
-        <td>File Text</td>
-      </tr>
-    )
-  });
-
-  const onClickSortHandler = useCallback(data => {
-    let sortOrder = data.item.value === data.sortColumn ? data.sortOrder === 'ASCENDING' ? 'DESCENDING' : 'ASCENDING' : data.item.defaultType
-    setSortOrder(sortOrder);
-    setSortColumn(data.item.value);
-    setSortProperty(data.item.property);
+  const onSelectedFileHandler = useCallback(data => {
+    setTimeout(() => setSelectedFile(data), 200)
   }, []);
+
+  const onSelectedFolderHandler = useCallback(data => {
+    setTimeout(() => setSelectedFolder(data), 200)
+  }, []);
+
+  const onBackdropDismiss = useCallback(() => {
+    setCreateFolder(false);
+  }, []);
+
+  const onClickSaveHandler = useCallback(data => {
+    dispatch(createGroup(data.name))
+    onBackdropDismiss();
+  }, [dispatch, onBackdropDismiss]);
 
   return (
     <div className={classes.fileExplorer}>
       <ProgramTaskBar>
         {fileExplorerTaskBarButtons}
       </ProgramTaskBar>
-      <div className={allFiles.length > 12 ? classes.tableWrapper : ''}>
-        <table>
-          <thead>
-          <tr>
-            <TableHead
-              data={fileExplorerTableHeadConfig}
-              sortColumn={sortColumn}
-              sortOrder={sortOrder}
-              onClickSort={onClickSortHandler}/>
-          </tr>
-          </thead>
-          <tbody>
-          {allFiles}
-          </tbody>
-        </table>
+      <div className={classes.explorerContent}>
+        <div className={classes.sideFolders}>
+          <SideFolders selectedFolder={selectedFolder} onSelectedFolder={onSelectedFolderHandler}/>
+        </div>
+        <div className={classes.tableWrapper}>
+          <FilesList selectedFile={selectedFile} onSelectedFile={onSelectedFileHandler}/>
+        </div>
       </div>
+      {createFolder && <Backdrop onClickBackdrop={onBackdropDismiss}/>}
+      {createFolder && <Modal>{
+        <FieldNameModal
+          onBackdropDismiss={onBackdropDismiss}
+          onClickSave={onClickSaveHandler}
+        />}</Modal>}
     </div>
   )
 
