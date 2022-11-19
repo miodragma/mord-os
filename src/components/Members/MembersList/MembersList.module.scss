@@ -1,0 +1,35 @@
+@use "../../../scss/mixins";
+
+.membersContent {
+  @include mixins.memberModalContent;
+
+  & table {
+    margin-top: 10px;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  & td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+
+  & tr {
+    //height: 45px;
+    &:nth-child(odd) {
+      background-color: #dddddd;
+    }
+
+    & td:nth-of-type(3) {
+      text-align: center;
+      padding: 0;
+    }
+
+    & img {
+      width: 25px;
+      background: transparent;
+    }
+  }
+
+}

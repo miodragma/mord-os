@@ -1,0 +1,79 @@
+@use "../../../scss/mixins";
+@import "../../../scss/variables";
+
+.addMembersContent {
+  @include mixins.memberModalContent;
+  height: 380px;
+  width: 600px;
+}
+
+.searchAndResultContent {
+  display: flex;
+  flex-direction: column;
+  margin-top: 16px;
+
+  & input {
+    padding: 5px 10px;
+    background: $whiteBackground;
+    outline: none;
+    border: unset;
+    border-radius: 4px;
+    width: 300px;
+    color: black;
+  }
+
+  & .selectUsersDropdown {
+    color: black;
+    width: 300px;
+    height: 160px;
+    padding: 5px 0;
+    margin-top: 16px;
+    border: unset;
+    border-radius: 4px;
+    background-color: $whiteBackground;
+    overflow-y: auto;
+
+    & .selected p {
+      background-color: $selectedBackground !important;
+    }
+
+    & p {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: black;
+      background-color: $whiteBackground;
+      padding: 5px 10px;
+      cursor: alias;
+      transition: all 200ms ease;
+
+      &:hover {
+        background-color: $selectedBackground;
+      }
+    }
+
+    & .selectedUser {
+      background-color: $selectedBackground;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      & p {
+        background-color: $selectedBackground;
+      }
+
+      & img {
+        background-color: transparent;
+        width: 23px;
+        margin-right: 10px;
+      }
+    }
+  }
+}
+
+.saveEditButton {
+  @include mixins.modalSaveButton;
+  background: $whiteBackground;
+  color: $secondaryColor;
+  right: 0;
+}

@@ -37,24 +37,7 @@
 }
 
 .saveInputFileName {
-  border: unset;
-  padding: 10px 35px;
-  border-radius: 4px;
-  font-size: 1.2rem;
-  opacity: 0.9;
-  transition: all 0.2s ease;
-  position: absolute;
-  bottom: 16px;
-  right: 16px;
-
-  &:hover {
-    opacity: 1;
-  }
-
-  &:disabled {
-    pointer-events: none;
-    opacity: 0.5;
-  }
+  @include mixins.modalSaveButton;
 }
 
 .inputAndGroups {
