@@ -7,6 +7,7 @@ import camera from '../assets/camera.png';
 import gallery from '../assets/gallery.png';
 import notepad from '../assets/notepad.png';
 import fileExplorer from '../assets/file-explorer.png';
+import settings from '../assets/settings.png';
 
 export const mainAppsConfig = [
   {
@@ -58,6 +59,14 @@ export const mainAppsConfig = [
     height: '620px',
     icon: (label, classNames = '', cb = () => {
     }) => <img src={rss} alt="" className={classNames} title={label} onClick={cb}/>
+  },
+  {
+    label: 'Settings',
+    type: 'settings',
+    width: '970px',
+    height: '620px',
+    icon: (label, classNames = '', cb = () => {
+    }) => <img src={settings} alt="" className={classNames} title={label}/>
   }
 ];
 
