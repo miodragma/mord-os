@@ -1,6 +1,7 @@
 import axiosConfig from '../../../axios/axiosConfig';
 
 import { authActions } from './auth.slice';
+import { loaderActions } from '../../UI/Toast/store/loader/loader-slice';
 
 export const userLogin = user => {
   return async dispatch => {
@@ -10,6 +11,7 @@ export const userLogin = user => {
 
     try {
       const { data: userData } = await loginUser();
+      dispatch(loaderActions.showToast({ toastMessage: `Welcome ${userData.user.name}`, type: 'success' }))
       return dispatch(authActions.login(userData));
     } catch (err) {
       const { data, message } = err.response.data
@@ -36,6 +38,7 @@ export const userSignup = user => {
 
     try {
       const { data: userData } = await signupUser();
+      dispatch(loaderActions.showToast({ toastMessage: `${userData.user.name} please login.`, type: 'error' }))
       return dispatch(authActions.signup(userData));
     } catch (err) {
       const { data, message } = err.response.data

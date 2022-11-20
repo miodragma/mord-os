@@ -1,7 +1,10 @@
 import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import axiosConfig from '../../../axios/axiosConfig';
 
 import ProgramWindowButton from '../../UI/ProgramWindowButton/ProgramWindowButton';
+
+import { loaderActions } from '../../UI/Toast/store/loader/loader-slice';
 
 import checkmark from '../../../assets/checkmark.png';
 import removeMinus from '../../../assets/remove-minus.png';
@@ -45,6 +48,8 @@ const usersReducer = (userState, action) => {
 const EditMember = props => {
 
   const { userId, groupId, saveEditMembers } = props;
+
+  const dispatch = useDispatch();
 
   const [userEmail, setUserEmail] = useState('');
   const [selectedUsersState, dispatchSelectedUsers] = useReducer(selectedUsersReducer, []);
@@ -101,7 +106,7 @@ const EditMember = props => {
       userIds: membersToUpdate.addMembers,
       groupId
     })
-      .then()
+      .then(res => dispatch(loaderActions.showToast({ toastMessage: res.data.message, type: 'success' })))
       .catch(err => console.log(err));
     membersToUpdate.deleteMembers.length !== 0 && axiosConfig.delete('/member/user-group/delete', {
       data: {
@@ -109,10 +114,10 @@ const EditMember = props => {
         groupId
       }
     })
-      .then()
+      .then(res => dispatch(loaderActions.showToast({ toastMessage: res.data.message, type: 'success' })))
       .catch(err => console.log(err));
     saveEditMembers();
-  }, [groupId, saveEditMembers, selectedUsersState, usersState.allUsers]);
+  }, [dispatch, groupId, saveEditMembers, selectedUsersState, usersState.allUsers]);
 
   const usersOptions = usersState.users.map(user => {
     let isExistMemberInGroup = false;

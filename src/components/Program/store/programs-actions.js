@@ -1,6 +1,7 @@
 import axiosConfig from '../../../axios/axiosConfig';
 
 import { programsActions } from './programs-slice';
+import { loaderActions } from '../../UI/Toast/store/loader/loader-slice';
 
 export const fetchFiles = groupId => {
   return async dispatch => {
@@ -54,6 +55,7 @@ export const createOrUpdateFile = data => {
       }
       !fileId && dispatch(programsActions.saveFile(file));
       fileId && dispatch(programsActions.updateFile(file));
+      dispatch(loaderActions.showToast({ toastMessage: fileData.message, type: 'success' }))
     } catch (error) {
       console.log(error);
     }
@@ -70,6 +72,7 @@ export const deleteFile = fileId => {
     try {
       const { data } = await onDeleteFile();
       dispatch(programsActions.deleteFile(data.file.id))
+      dispatch(loaderActions.showToast({ toastMessage: data.message, type: 'success' }))
 
     } catch (err) {
       console.log(err)
@@ -87,7 +90,8 @@ export const createGroup = name => {
 
     try {
       const { data } = await onCreateGroup();
-      dispatch(programsActions.createNewGroup(data.group))
+      dispatch(programsActions.createNewGroup(data.group));
+      dispatch(loaderActions.showToast({ toastMessage: data.message, type: 'success' }))
     } catch (err) {
       console.log(err)
     }
@@ -122,7 +126,8 @@ export const deleteGroup = groupId => {
 
     try {
       const { data } = await onDeleteGroup();
-      dispatch(programsActions.deleteGroup(data.group.id))
+      dispatch(programsActions.deleteGroup(data.group.id));
+      dispatch(loaderActions.showToast({ toastMessage: data.message, type: 'success' }))
 
     } catch (err) {
       console.log(err)

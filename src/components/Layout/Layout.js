@@ -1,9 +1,16 @@
+import { Fragment } from 'react';
+
+import Toast from '../UI/Toast/Toast';
+
 const Layout = props => {
 
   return (
-    <main>
-      {props.children}
-    </main>
+    <Fragment>
+      <main>
+        {props.children}
+      </main>
+      <Toast/>
+    </Fragment>
   )
 }
 
