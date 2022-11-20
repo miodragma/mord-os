@@ -11,6 +11,7 @@ import reportWebVitals from './reportWebVitals';
 import store from './store';
 
 import './index.scss';
+import 'react-toastify/dist/ReactToastify.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

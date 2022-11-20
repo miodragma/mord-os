@@ -5,6 +5,7 @@ import gallerySlice from '../components/Gallery/store/gallery-slice';
 import newsSlice from '../components/News/store/news-slice';
 import authSlice from '../components/Auth/store/auth.slice';
 import membersSlice from '../components/Members/store/members-slice';
+import loaderSlice from '../components/UI/Toast/store/loader/loader-slice';
 
 const store = configureStore({
   reducer: {
@@ -12,7 +13,8 @@ const store = configureStore({
     gallery: gallerySlice.reducer,
     news: newsSlice.reducer,
     auth: authSlice.reducer,
-    members: membersSlice.reducer
+    members: membersSlice.reducer,
+    loader: loaderSlice.reducer,
   }
 })
 
