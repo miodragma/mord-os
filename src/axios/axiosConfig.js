@@ -25,10 +25,6 @@ instance.interceptors.response.use(response => {
   return response;
 }, err => {
   console.log(err);
-  console.log(err.response.config.url)
-  if (err.response.status === 401 && (err.response.config.url !== '/auth/user' || err.response.config.url !== '/auth/login')) {
-
-  }
   const message = err.response?.data?.message || err.message;
   toast.error(message, { ...toastConfig })
   return Promise.reject(err);
