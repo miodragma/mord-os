@@ -127,6 +127,7 @@ export const deleteGroup = groupId => {
     try {
       const { data } = await onDeleteGroup();
       dispatch(programsActions.deleteGroup(data.group.id));
+      dispatch(fetchFiles());
       dispatch(loaderActions.showToast({ toastMessage: data.message, type: 'success' }))
 
     } catch (err) {
