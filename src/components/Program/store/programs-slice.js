@@ -61,6 +61,10 @@ const programsSlice = createSlice({
     },
     deleteGroup(state, action) {
       state.groups = state.groups.filter(group => group.id !== action.payload);
+      if (state.activeFolder === action.payload) {
+        state.files = [];
+      }
+      state.activeFolder = 'myFiles';
     }
   }
 });
